@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+{% include 'shared/_navbar.html' %}
+{% if user.is_authenticated %} 
+<div class="container">
+    <h1>LIKELION의 모든 상품!</h1>
+    <a href="{% url 'Product:new'%}" class="btn btn-primary">상품 판매하기</a>
+    <div class="row">
+        {% for post in Product %}
+        <div class="col-md-4 col-12">
+            <div class="card" style="width: 18rem; margin-top: 20px;">
+                <div class="card-body">
+                    <h5 class="card-title">상품명 : {{ post.title }}</h5>
+                    <p>상품 가격 : {{ post.price }}</p>
+                    <p>{{ post.stock }}개 남았습니다.</p>
+                    <a href="{% url 'Product:show' post.pk %}" class="btn btn-primary">자세히 보기</a>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% else %}
+    <h3>로그인 후 이용이 가능합니다.</h3>
+    <a href="{% url 'account_login' %}" class="btn btn-warning">로그인</a>
+    <a href="{% url 'account_signup' %}" class="btn btn-warning">회원가입</a>
+
+{% endif %}
+{% endblock %}
